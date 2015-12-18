@@ -137,6 +137,9 @@ function showoff{T <: AbstractFloat}(xs::AbstractArray{T}, style=:auto)
         precision = scientific_precision_heuristic(xs)
         return AbstractString[format_fixed_scientific(x, precision, true)
                       for x in xs]
+    elseif style == :percentage
+        precision = max(plain_precision_heuristic(xs) - 2, 0)
+        return AbstractString[format_fixed(100x, precision) * "%" for x in xs]
     else
         error("$(style) is not a recongnized number format")
     end
